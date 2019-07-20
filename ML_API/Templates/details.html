@@ -1,0 +1,167 @@
+{%extends "bootstrap/base.html" %}
+
+{% block content %}
+<!-- Main Content Is Here -->
+
+
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+     
+        <div class="container">
+          <h1 class="display-3">Final Report of the Dataset</h1>
+          <p>Simplify Your Machine Learning and Data Exploration(Semi-Automated ML)</p>
+          <p><a href="{{ url_for('index')}}" type="button" class="button_reset" > Go Back </a></p>
+        </div>
+      
+
+  
+    
+     
+    <div class="container">
+        <!-- Details Page  -->
+        <h2>Results</h2>
+        <div class="row">
+          <div class="col-md-6" style="background-color:#070a01">
+            <h2 style="color: white">Details of Dataset</h2>
+            
+            <div class="alert alert-info" role="alert">
+              <p><span style="color:rgba(0, 2, 0, 0.671)">Filename</span>: {{ filename }}</p>
+            </div>
+            
+            
+
+            <h2 style="color: white">Exploratory Data Analysis</h2>
+            
+            <div class="alert alert-info" role="alert"><p><span style="color:rgb(7, 8, 0)">Size</span>: {{ df_size }}</p></div>
+            <div class="alert alert-danger" role="alert"><p><span style="color:rgb(7, 8, 0)">Shape</span>: <br/>
+            (Row,Columns)<br/>
+            {{ df_shape }}</p></div>
+            
+            <div class="alert alert-info" role="alert">
+              <p><span style="color:rgb(7, 8, 0)">Columns</span>: 
+                  {% for i in df_columns %}
+                  
+                  <li>{{ i}}</li> 
+                  
+                  {% endfor %}
+              </p>
+            </div>
+
+            <div class="alert alert-danger" role="alert">
+              <p><span style="color:rgb(7, 8, 0)">Target</span>: {{ df_targetnames }}</p>
+            </div>
+                <h2 style="color: violet">Model Score</h2>
+            
+            {% for mlaccuracy  in model_results %}
+            
+            <div class="list-group">
+                <a href="#" class="list-group-item">
+                  <span style="color:rgb(7, 8, 0)">ML Algorithm | Mean Accuracy | Standard Deviation</span> </a>
+                <a href="#" class="list-group-item">{{ mlaccuracy }}</a>
+           </div>
+
+            {% endfor %}
+          </div>
+          
+          <!-- Viewing Dataset As a Table-->
+         <div class="col-md-6">
+           <h2>Details of Dataset</h2>
+          
+           <button onclick="displayDataset()" class="button_reset">View Dataset</button>
+           <br/>
+           <br/>
+           
+           
+           <div id="myDIV">
+             
+             {{ dfplot.to_html(classes="table table-dark",na_rep="-") | safe}}
+            
+           </div>
+         
+          
+
+           </div>
+         
+          </div>
+    
+  </div>
+
+ <style>
+ #myDIV{
+    display: block;
+    background-color: #070a01;
+    color: blanchedalmond;
+    font-size: 15px;
+    font-family: 'Lota',sans-serif;
+       }
+      .container{
+     border: 2px solid black;
+     margin-top: 50px;
+     padding: 40px;
+     background: #7F7FD5;  /* fallback for old browsers */
+     background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
+     background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+         width: 100%;
+                }
+
+     .button_reset{
+     
+     height: 60px;
+     width: 180px;
+     background:rgb(255, 178, 10);
+     padding: 10px 40px 10px 40px;
+     text-decoration: none;
+     align-content: center;
+     color: #000000;
+     border-radius: 30px 30px 30px 30px;
+     border:2 px solid black;
+
+    }
+    h2{
+      font-family: 'Lato',sans-serif;
+    }
+    .list-group{
+      font-size: 15px;
+      font-weight: 200;
+    }
+    .dataset{
+      width: 100%;
+      
+    }
+  </style>
+  
+
+
+
+
+
+
+   
+
+
+
+
+
+{% endblock %}
+
+<!-- External 3-Party JS Is Here -->
+
+{% block scripts %}
+
+{{ super() }} 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<!-- Function for Displaying Table -->
+<script>
+    function displayDataset() {
+        var x = document.getElementById("myDIV");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+        } else {
+            x.style.display = "block";
+        }
+    }
+    </script>
+
+
+{% endblock%}
